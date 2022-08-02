@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Taş Kağıt Makas</title>
+	<style>
+		.box{
+			border:1px solid #000;
+			padding:10px;
+			width:10%;
+			display: inline-block;
+			text-align: center;
+			font-size:10px;
+		}
+		.box img{
+			
+			width:50%
+		}
+		.options{
+			cursor: pointer;
+		}
+		.selected{
+			background-color: green;
+		}
+		.hasan{
+			background-color: red;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<div style="border:1px solid #ddd;text-align: center;padding:10%">
+			<span class="box kullanici-secim">
+				Sen<br>
+				<img id="kullanici" src="assets/img/question-mark.png" alt="">
+			</span>
+			<span class="box bilgisayar-secim">
+				Blg<br>
+				<img id="bilgisayar" src="assets/img/question-mark.png" alt="">
+			</span>
+		</div>
+		<div style="border:1px solid #ddd;text-align: center; padding:10%">
+				<span class="box options" data-option="tas">
+					<img src="assets/img/tas.svg" alt="">
+				</span>
+				<span class="box options" data-option="kagit">
+					<img  src="assets/img/kagit.svg" alt="">
+				</span>
+				<span class="box options" data-option="makas">
+					<img  src="assets/img/makas.svg" alt="">
+				</span>
+		</div>
+	</div>
+
+<script>
+	var boxes = document.querySelectorAll('.options');
+	var userSelected = '';
+	var computerSelected = '';
+	var sonuc = '';
+	var userSelectedImage = document.querySelector('#kullanici');
+	var computerSelectedImage = document.querySelector('#bilgisayar');
+
+	boxes.forEach(function(box, b){
+
+		box.addEventListener("click", function(){
+
+			userSelected = this.getAttribute("data-option");
+
+			yerlestir("kullanici");
+			computer();
+
+		})
+
+	})
+
+	function yerlestir(nereye){
+		if(nereye == 'kullanici'){
+			userSelectedImage.src = 'assets/img/'+userSelected+".svg"
+		}else if(nereye == 'bilgisayar'){
+			computerSelectedImage.src = 'assets/img/'+computerSelected+".svg"
+		}
+	}	
+
+	function computer(){
+		var cmpRand = Math.round(Math.random() * 2)
+		switch(cmpRand){
+			case 0: computerSelected = "tas"; break;
+			case 1: computerSelected = "kagit"; break;
+			case 2: computerSelected = "makas"; break;
+		}
+		yerlestir("bilgisayar");
+		hesapla()
+	}
+
+	function hesapla(){
+		sonuc = "computer";
+		if(computerSelected == userSelected){
+			sonuc = "Eşittir";
+		}else{
+			if(computerSelected == "kagit" && userSelected == "makas"){
+				sonuc = "computer";
+			}
+
+			
+		}
+		sonucYazdir(sonuc)
+	}
+
+	function sonucYazdir(sonuc){
+		document.querySelector(".kullanici-secim").classList.remove("selected")
+		document.querySelector(".bilgisayar-secim").classList.remove("selected")
+			if(sonuc == "computer"){
+				document.querySelector(".kullanici-secim").classList.add("selected")
+			}else{
+				document.querySelector(".bilgisayar-secim").classList.add("selected")
+			}
+	}
+</script>
+</body>
+</html>
